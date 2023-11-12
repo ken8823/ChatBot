@@ -87,7 +87,6 @@ const ChatWindow = ({ darkMode }) => {
                   onKeyDown={handleKeyDown}
                   placeholder="Send a message"
                   className={`scrollbar-thumb-[#777] hover:scrollbar-thumb-[#ffffffc7] scrollbar-thin scrollbar-thumb-rounded m-0 bottom-3 p-1 left-3 w-full resize-none py-[10px] pl-5 focus:outline-none focus-visible:outline-none focus-visible:ring-0 shadow-none bg-transparent md:py-4 md:pr-14 ${isEnterDisabled}`}
-                  darkMode={darkMode}
                 />
                 {isBotResponding ? (
                   <div className="absolute p-1 rounded-md md:bottom-3 md:p-2 md:right-3 hover:bg-gray-900 disabled:hover:bg-transparent right-2 disabled:text-gray-400 disabled:opacity-40">

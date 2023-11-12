@@ -13,10 +13,10 @@ const ChatMessage = ({ text, isUser, id, darkMode }) => {
   const label = isUser ? <UserIcon /> : <BotIcon />
 
   const messageContainerClassName = isUser
-    ? `p-2 self-start bg-surfacePrimary w-full ${
+    ? `p-2 self-start w-full ${
         darkMode ? 'bg-surfacePrimary' : 'bg-[#FFFFFF]'
       } ${darkMode ? 'text-textPrimary' : 'text-surfacePrimary'}`
-    : `p-2 self-start bg-surfaceSecondary w-full ${
+    : `p-2 self-start w-full ${
         darkMode ? 'bg-surfaceSecondary' : 'bg-[#F7F7F8]'
       } ${darkMode ? 'text-textPrimary' : 'text-surfacePrimary'}`
 

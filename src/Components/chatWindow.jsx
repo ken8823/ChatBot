@@ -77,7 +77,7 @@ const ChatWindow = ({ darkMode }) => {
           <form className="flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl">
             <div className="flex w-full items-center">
               <div
-                className={`w-full flex flex-grow rounded-xl border border-black/10 text-white relative shadow-md ${
+                className={`w-full flex flex-grow rounded-xl border border-black/10 relative shadow-md ${
                   darkMode ? 'bg-[#40414f]' : 'bg-[#FFFFFF]'
                 } ${darkMode ? 'text-textPrimary' : 'text-[#40414f]'}`}
               >

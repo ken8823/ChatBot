@@ -9,6 +9,7 @@ module.exports = {
         textTertiary: '#6b7280',
         surfacePrimary: '#343541',
         surfaceSecondary: '#444654',
+        surfaceTertiary: '#f7f7f8',
       },
       fontSize: {
         base: '1rem',
@@ -18,6 +19,7 @@ module.exports = {
         sans: ['Open Sans', 'sans-serif'],
       },
     },
+    darkMode: 'class',
   },
   plugins: [require('tailwind-scrollbar')({ nocompatible: true })],
 }

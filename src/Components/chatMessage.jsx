@@ -1,11 +1,11 @@
 import React from 'react'
 import Button from './button'
 import CopyIcon from '../Constants/copyIcon'
-import Accordion from './disclosure'
+import Accordion from './accordion'
 import BotIcon from '../Constants/botIcon'
 import UserIcon from '../Constants/userIcon'
 
-const ChatMessage = ({ text, isUser, id }) => {
+const ChatMessage = ({ text, isUser, id, darkMode }) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(text)
   }
@@ -13,8 +13,12 @@ const ChatMessage = ({ text, isUser, id }) => {
   const label = isUser ? <UserIcon /> : <BotIcon />
 
   const messageContainerClassName = isUser
-    ? 'p-2 self-start bg-surfacePrimary w-full'
-    : 'p-2 self-start bg-surfaceSecondary w-full'
+    ? `p-2 self-start bg-surfacePrimary w-full ${
+        darkMode ? 'bg-surfacePrimary' : 'bg-[#FFFFFF]'
+      } ${darkMode ? 'text-textPrimary' : 'text-surfacePrimary'}`
+    : `p-2 self-start bg-surfaceSecondary w-full ${
+        darkMode ? 'bg-surfaceSecondary' : 'bg-[#F7F7F8]'
+      } ${darkMode ? 'text-textPrimary' : 'text-surfacePrimary'}`
 
   const copyButtonClassName = isUser
     ? 'text-textTertiary hover:text-white focus:outline-none ml-2'
@@ -27,7 +31,15 @@ const ChatMessage = ({ text, isUser, id }) => {
         <div
           className={`flex items-center space-x-2 overflow-x-auto w-full scrollbar-thumb-[#777] hover:scrollbar-thumb-[#ffffffc7] scrollbar-thin scrollbar-thumb-rounded`}
         >
-          {isUser ? text : <Accordion title={text} panel={text} />}
+          {isUser ? (
+            text
+          ) : (
+            <div className="mb-2 w-full">
+              <Accordion title={text} panel={text} />
+              <Accordion title={text} panel={text} />
+              {text}
+            </div>
+          )}
         </div>
         {!isUser && (
           <Button className={copyButtonClassName} onClick={handleCopy}>

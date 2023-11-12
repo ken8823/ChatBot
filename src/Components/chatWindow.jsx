@@ -5,7 +5,7 @@ import ChatMessage from './chatMessage'
 import SendIcon from '../Constants/sendIcon'
 import Header from './header'
 
-const ChatWindow = () => {
+const ChatWindow = ({ darkMode }) => {
   const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
   const [isEnterDisabled, setIsEnterDisabled] = useState(false)
@@ -56,7 +56,7 @@ const ChatWindow = () => {
 
   return (
     <>
-      <div className="flex flex-col text-sm gap-10 w-full justify-center">
+      <div className="flex flex-col text-sm w-full justify-center">
         <Header />
         <div
           className="flex flex-col flex-grow gap-2 overflow-auto scrollbar-thumb-[#777] hover:scrollbar-thumb-[#ffffffc7] scrollbar-thin scrollbar-thumb-rounded"
@@ -68,30 +68,36 @@ const ChatWindow = () => {
                 key={index}
                 text={message.text}
                 isUser={message.isUser}
+                darkMode={darkMode}
               />
             ))}
           </div>
         </div>
-        <div className="w-full pt-2 md:pt-0 border-t md:border-t-0">
+        <div className="w-full md:pt-0 border-t md:border-t-0 mt-6">
           <form className="flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl">
             <div className="flex w-full items-center">
-              <div className="w-full flex flex-grow rounded-xl border-none border-gray-900/50 dark:text-white relative bg-[#40414f] shadow-md">
+              <div
+                className={`w-full flex flex-grow rounded-xl border border-black/10 text-white relative shadow-md ${
+                  darkMode ? 'bg-[#40414f]' : 'bg-[#FFFFFF]'
+                } ${darkMode ? 'text-textPrimary' : 'text-[#40414f]'}`}
+              >
                 <Textarea
                   value={inputMessage}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
                   placeholder="Send a message"
-                  className={`scrollbar-thumb-[#777] hover:scrollbar-thumb-[#ffffffc7] scrollbar-thin scrollbar-thumb-rounded m-0 bottom-3 p-1 left-3 w-full resize-none py-[10px] pl-5 focus:outline-none focus-visible:outline-none focus-visible:ring-0 dark:shadow-none dark:bg-transparent md:py-4 md:pr-14 ${isEnterDisabled}`}
+                  className={`scrollbar-thumb-[#777] hover:scrollbar-thumb-[#ffffffc7] scrollbar-thin scrollbar-thumb-rounded m-0 bottom-3 p-1 left-3 w-full resize-none py-[10px] pl-5 focus:outline-none focus-visible:outline-none focus-visible:ring-0 shadow-none bg-transparent md:py-4 md:pr-14 ${isEnterDisabled}`}
+                  darkMode={darkMode}
                 />
                 {isBotResponding ? (
-                  <div className="absolute p-1 rounded-md md:bottom-3 md:p-2 md:right-3 dark:hover:bg-gray-900 dark:disabled:hover:bg-transparent right-2 disabled:text-gray-400 disabled:opacity-40">
+                  <div className="absolute p-1 rounded-md md:bottom-3 md:p-2 md:right-3 hover:bg-gray-900 disabled:hover:bg-transparent right-2 disabled:text-gray-400 disabled:opacity-40">
                     {'...'}
                   </div>
                 ) : (
                   <Button
                     onClick={handleSendMessage}
                     disabled={inputMessage.trim() === ''}
-                    className="absolute p-1 rounded-md md:bottom-3 md:p-2 md:right-3 dark:hover:bg-gray-900 dark:disabled:hover:bg-transparent right-2 disabled:text-gray-400 disabled:opacity-40"
+                    className="absolute p-1 rounded-md md:bottom-3 md:p-2 md:right-3 hover:bg-gray-900 disabled:hover:bg-transparent right-2 disabled:text-gray-400 disabled:opacity-40"
                   >
                     <SendIcon />
                   </Button>

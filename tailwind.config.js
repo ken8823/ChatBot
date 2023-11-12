@@ -19,7 +19,6 @@ module.exports = {
         sans: ['Open Sans', 'sans-serif'],
       },
     },
-    darkMode: 'class',
   },
   plugins: [require('tailwind-scrollbar')({ nocompatible: true })],
 }

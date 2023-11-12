@@ -52,7 +52,7 @@ const ChatWindow = ({ darkMode }) => {
       messageContainerRef.current.scrollTop =
         messageContainerRef.current.scrollHeight
     }
-  }, [messages])
+  }, [messages, isBotResponding])
 
   return (
     <>
@@ -71,6 +71,14 @@ const ChatWindow = ({ darkMode }) => {
                 darkMode={darkMode}
               />
             ))}
+            {isBotResponding && (
+              <ChatMessage
+                text="Typing..."
+                isUser={false}
+                darkMode={darkMode}
+                isTyping={true}
+              />
+            )}
           </div>
         </div>
         <div className="w-full md:pt-0 border-t md:border-t-0 mt-6">

@@ -32,19 +32,21 @@ const ChatMessage = ({ text, isUser, id, darkMode }) => {
           className={`flex items-center space-x-2 overflow-x-auto w-full scrollbar-thumb-[#777] hover:scrollbar-thumb-[#ffffffc7] scrollbar-thin scrollbar-thumb-rounded`}
         >
           {isUser ? (
-            text
+            <span className="ml-2">{text}</span>
           ) : (
             <div className="mb-2 w-full">
               <Accordion title={text} panel={text} />
               <Accordion title={text} panel={text} />
-              {text}
+              <div className="ml-2">{text}</div>
             </div>
           )}
         </div>
         {!isUser && (
-          <Button className={copyButtonClassName} onClick={handleCopy}>
-            <CopyIcon />
-          </Button>
+          <span>
+            <Button className={copyButtonClassName} onClick={handleCopy}>
+              <CopyIcon />
+            </Button>
+          </span>
         )}
       </div>
     </div>

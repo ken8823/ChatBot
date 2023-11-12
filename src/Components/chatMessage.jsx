@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Button from './button'
 import CopyIcon from '../Constants/copyIcon'
 import Accordion from './accordion'
@@ -6,6 +6,36 @@ import BotIcon from '../Constants/botIcon'
 import UserIcon from '../Constants/userIcon'
 
 const ChatMessage = ({ text, isUser, id, darkMode }) => {
+  const [currentDisplayText, setCurrentDisplayText] = useState('')
+  let index = useRef(0)
+
+  useEffect(() => {
+    index.current = 0
+    setCurrentDisplayText('')
+  }, [text])
+
+  useEffect(() => {
+    let timeout
+
+    const typeText = async () => {
+      setCurrentDisplayText(
+        (displayText) => displayText + text.charAt(index.current)
+      )
+      index.current++
+
+      if (index.current <= text.length) {
+        await new Promise((resolve) => setTimeout(resolve, 50)) // Delay between typing each character
+        typeText()
+      }
+    }
+
+    timeout = setTimeout(typeText, 1000) // Delay before typing starts (1 second in this example)
+
+    return () => {
+      clearTimeout(timeout) // Clean up the timeout on component unmount
+    }
+  }, [currentDisplayText, text])
+
   const handleCopy = () => {
     navigator.clipboard.writeText(text)
   }
@@ -35,9 +65,15 @@ const ChatMessage = ({ text, isUser, id, darkMode }) => {
             <span className="ml-2">{text}</span>
           ) : (
             <div className="mb-2 w-full">
-              <Accordion title={text} panel={text} />
-              <Accordion title={text} panel={text} />
-              <div className="ml-2">{text}</div>
+              <Accordion
+                title={currentDisplayText}
+                panel={currentDisplayText}
+              />
+              <Accordion
+                title={currentDisplayText}
+                panel={currentDisplayText}
+              />
+              <div className="ml-2">{currentDisplayText}</div>
             </div>
           )}
         </div>

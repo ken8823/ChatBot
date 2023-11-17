@@ -63,8 +63,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 ### Deployment
 
-![alt text](![image](https://github.com/ken8823/ChatBot/assets/17255200/c2b07212-20e0-4ad1-8fb8-4426e97f0a57))
-
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
 ### `npm run build` fails to minify

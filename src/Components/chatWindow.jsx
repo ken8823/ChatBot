@@ -4,6 +4,9 @@ import Textarea from './textarea'
 import ChatMessage from './chatMessage'
 import SendIcon from '../Constants/sendIcon'
 import Header from './header'
+import io from 'socket.io-client'
+
+const socket = io('http://localhost:3001')
 
 const ChatWindow = ({ darkMode }) => {
   const [messages, setMessages] = useState([])
@@ -16,7 +19,7 @@ const ChatWindow = ({ darkMode }) => {
     setInputMessage(e.target.value)
   }
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = () => {
     if (inputMessage.trim() !== '') {
       const userMessage = { text: inputMessage, isUser: true }
       setMessages((prevMessages) => [...prevMessages, userMessage])
@@ -25,16 +28,7 @@ const ChatWindow = ({ darkMode }) => {
       setIsEnterDisabled(true)
       setIsBotResponding(true)
 
-      // Simulate bot response
-      setTimeout(() => {
-        const botResponse = 'This is a bot response.'
-        const botMessage = { text: botResponse, isUser: false }
-
-        // Add bot message to the messages array
-        setMessages((prevMessages) => [...prevMessages, botMessage])
-        setIsEnterDisabled(false)
-        setIsBotResponding(false)
-      }, 500)
+      socket.emit('message', inputMessage)
     }
   }
 
@@ -48,11 +42,52 @@ const ChatWindow = ({ darkMode }) => {
   }
 
   useEffect(() => {
+    socket.on('message', (message) => {
+      const botMessage = { text: message, isUser: false }
+      setMessages((prevMessages) => [...prevMessages, botMessage])
+      setIsBotResponding(false)
+    })
+
     if (messageContainerRef.current) {
       messageContainerRef.current.scrollTop =
         messageContainerRef.current.scrollHeight
     }
-  }, [messages, isBotResponding])
+
+    return () => {
+      socket.disconnect()
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleBotResponse = async () => {
+      const botResponses = [
+        'This is the first accordion message.',
+        'This is the second accordion message.',
+        'This is the last message.',
+      ]
+
+      for (let i = 0; i < botResponses.length; i++) {
+        const botResponse = botResponses[i]
+
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: botResponse, isUser: false },
+        ])
+
+        if (i < botResponses.length - 1) {
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+        }
+      }
+      setIsEnterDisabled(false)
+      setIsBotResponding(false)
+    }
+
+    if (isBotResponding) {
+      handleBotResponse()
+    }
+  }, [isBotResponding])
 
   return (
     <>
@@ -103,7 +138,7 @@ const ChatWindow = ({ darkMode }) => {
                 ) : (
                   <Button
                     onClick={handleSendMessage}
-                    disabled={inputMessage.trim() === ''}
+                    disabled={inputMessage.trim() === '' || isBotResponding}
                     className="absolute p-1 rounded-md md:bottom-3 md:p-2 md:right-3 hover:bg-gray-900 disabled:hover:bg-transparent right-2 disabled:text-gray-400 disabled:opacity-40"
                   >
                     <SendIcon />

@@ -10,21 +10,19 @@ const Accordion = ({
   containerStyles,
 }) => {
   const [currentDisplayText, setCurrentDisplayText] = useState('')
-  const index = useRef(0)
 
   useEffect(() => {
-    index.current = 0
     setCurrentDisplayText('')
 
     const TYPE_DELAY = 50
+    let index = 0
+
     const timeout = setTimeout(() => {
       const typeText = () => {
-        setCurrentDisplayText(
-          (prevDisplayText) => prevDisplayText + title.charAt(index.current)
-        )
-        index.current++
+        setCurrentDisplayText(title.substring(0, index + 1))
+        index++
 
-        if (index.current <= title.length) {
+        if (index < title.length) {
           setTimeout(typeText, TYPE_DELAY)
         }
       }
